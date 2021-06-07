@@ -1,0 +1,19 @@
+{
+  "issues": [
+    {
+      "index": 1,
+      "entry": "",
+      "reason": "relative-or-empty"
+    },
+    {
+      "index": 2,
+      "entry": "./bin",
+      "reason": "relative-or-empty"
+    },
+    {
+      "index": 3,
+      "entry": "/usr/bin",
+      "reason": "duplicate"
+    }
+  ]
+}
