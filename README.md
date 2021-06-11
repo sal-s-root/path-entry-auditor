@@ -1,3 +1,64 @@
 # path-entry-auditor
 
 Detect PATH entries that depend on the working directory.
+
+## Run
+
+Python 3.8 or later; no third-party packages or cloud credentials are required.
+
+```sh
+python3 tool.py examples/input.json
+cat examples/input.json | python3 tool.py -
+python3 -m unittest -v
+```
+
+## Example
+
+Input:
+
+```json
+{
+  "path": "/usr/bin::./bin:/usr/bin"
+}
+```
+
+Result:
+
+```json
+{
+  "issues": [
+    {
+      "index": 1,
+      "entry": "",
+      "reason": "relative-or-empty"
+    },
+    {
+      "index": 2,
+      "entry": "./bin",
+      "reason": "relative-or-empty"
+    },
+    {
+      "index": 3,
+      "entry": "/usr/bin",
+      "reason": "duplicate"
+    }
+  ]
+}
+```
+
+The command writes JSON to standard output. Exit 0 means evaluation completed;
+a finding in the output may still require attention. Invalid input returns exit 2,
+with an error on standard error and no result on standard output.
+
+## Operational scope
+
+Does not check directory ownership, symlinks, or write permissions.
+
+The tool evaluates supplied data locally. It does not change hosts, deploy
+resources, or establish production compliance. Example identifiers and observations
+are test fixtures. Keep credentials and private inventory out of Git.
+
+## Design and verification
+
+See [NOTES.md](NOTES.md) for the input contract, verification, and integration notes.
+Related utilities: [disk-capacity-planner](https://github.com/sal-s-root/disk-capacity-planner), [process-snapshot-sorter](https://github.com/sal-s-root/process-snapshot-sorter).
